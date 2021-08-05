@@ -7,6 +7,7 @@ import { populateDatabase } from "../controllers/pokemonController";
 const mainRouter = Router();
 
 mainRouter.use("/pokemons", pokemonRouter);
+mainRouter.use("/my-pokemons", pokemonRouter);
 mainRouter.use("/", usersRouter);
 mainRouter.get("/populate", populateDatabase);
 

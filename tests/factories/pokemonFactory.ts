@@ -4,6 +4,7 @@ import Pokemon from "../../src/entities/Pokemon";
 export async function createPokemon(): Promise<Pokemon> {
     const pokemonRepository = getRepository(Pokemon);
     const pokemon = {
+        id: 1,
         name: "fakeName",
         number: 1,
         image: "fakeImage",
@@ -12,5 +13,5 @@ export async function createPokemon(): Promise<Pokemon> {
         baseExp: 4,
         description: "fakeDescription"
     }
-    return await pokemonRepository.save({ ...pokemon });
+    return await pokemonRepository.save(pokemon);
 }

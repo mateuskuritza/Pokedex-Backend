@@ -8,6 +8,22 @@ export async function getAll(req: Request, res: Response) {
     res.status(200).send(allPokemons);
 }
 
+export async function addFavoritePokemon(req: Request, res: Response) {
+    const { userId } = res.locals;
+    const { pokemonId } = req.params;
+    if (!pokemonId || Number(pokemonId) > 807) return res.status(400).send("Invalid pokemonId");
+    const status = await pokemonService.addFavoritePokemon(userId, Number(pokemonId));
+    res.sendStatus(status);
+}
+
+export async function removeFavoritePokemon(req: Request, res: Response) {
+    const { userId } = res.locals;
+    const { pokemonId } = req.params;
+    if (!pokemonId || Number(pokemonId) > 807) return res.status(400).send("Invalid pokemonId");
+    const status = await pokemonService.removeFavoritePokemon(userId, Number(pokemonId));
+    res.sendStatus(status);
+}
+
 export async function populateDatabase(req: Request, res: Response) {
     const pokemons: any[] = [];
     // descriptions limit 807

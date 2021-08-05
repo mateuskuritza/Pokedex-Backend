@@ -23,7 +23,7 @@ export async function createSession(userId: number) {
         token: "1234567890"
     };
 
-    await getRepository(Session).insert({
+    await getRepository(Session).save({
         userId: userId,
         token: session.token
     });
