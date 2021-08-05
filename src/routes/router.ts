@@ -5,7 +5,7 @@ import usersRouter from "./users";
 
 const mainRouter = Router();
 
-mainRouter.use("/pokemon", pokemonRouter);
-mainRouter.use("/users", usersRouter);
+mainRouter.use("/pokemons", pokemonRouter);
+mainRouter.use("/", usersRouter);
 
 export default mainRouter;
