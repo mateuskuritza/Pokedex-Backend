@@ -10,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import errorHandler from "./middlewares/errorHandler";
+app.use(errorHandler);
+
 import router from "./routes/router";
 app.use("/", router);
 
