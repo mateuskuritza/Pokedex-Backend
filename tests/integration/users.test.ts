@@ -41,6 +41,32 @@ describe("POST /users/sign-up", () => {
     });
 });
 
+describe("POST /users/sign-in", () => {
+    it("should answer with status 400 invalid body", async () => {
+        const missingEmail = await test.post("/users/sign-in").send({ email: "", password: "1234" });
+        const missingPassword = await test.post("/users/sign-in").send({ email: "fake@fake.com", password: "" });
+        const invalidEmail = await test.post("/users/sign-in").send({ email: "fake", password: "1234" });
+
+        expect(missingEmail.status).toBe(400);
+        expect(invalidEmail.status).toBe(400);
+        expect(missingPassword.status).toBe(400);
+    });
+    it("should answer with status 401 wrong email or password", async () => {
+        const newUser = await userFactory.createUser();
+        const wrongEmail = await test.post("/users/sign-in").send({ email: "fake@fake.com", password: newUser.password });
+        const wrongPassword = await test.post("/users/sign-in").send({ email: newUser.email, password: "fake" });
+
+        expect(wrongEmail.status).toBe(401);
+        expect(wrongPassword.status).toBe(401);
+    });
+    it("should answer with status 200 and session token", async () => {
+        const newUser = await userFactory.createUser();
+        const result = await test.post("/users/sign-in").send({ email: newUser.email, password: newUser.password });
+        expect(result.status).toBe(200);
+        expect(result.body).toHaveProperty("token");
+    });
+});
+
 /*
 it("should answer with status 400 invalid body", async () => {
     const user = await createUser();
