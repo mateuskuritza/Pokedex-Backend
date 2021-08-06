@@ -9,12 +9,10 @@ export async function createUser(password: string) {
         password
     };
 
-    const newUser = await getRepository(User).save({
+    return await getRepository(User).save({
         email: user.email,
         password: bcrypt.hashSync(user.password, 10)
     });
-
-    return newUser;
 }
 
 export async function createSession(userId: number) {
@@ -23,12 +21,7 @@ export async function createSession(userId: number) {
         token: "1234567890"
     };
 
-    await getRepository(Session).save({
-        userId: userId,
-        token: session.token
-    });
-
-    return session;
+    return getRepository(Session).save(session);
 }
 
 export async function getAll() {
