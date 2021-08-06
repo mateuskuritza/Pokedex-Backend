@@ -53,16 +53,6 @@ describe("POST /my-pokemons/:pokemonId/add", () => {
         expect(missingBearerToken.status).toBe(401);
         expect(invalidToken.status).toBe(401);
     });
-    it("should answer with status 200 and after 409", async () => {
-        const newUser = await userFactory.createUser("123456");
-        const newSession = await userFactory.createSession(newUser.id);
-        const newPokemon = await pokemonFactory.createPokemon();
-        const firstRequest = await test.post(`/my-pokemons/${newPokemon.id}/add`).set("Authorization", `Bearer ${newSession.token}`);
-        const secondRequest = await test.post(`/my-pokemons/${newPokemon.id}/add`).set("Authorization", `Bearer ${newSession.token}`);
-
-        expect(firstRequest.status).toBe(200);
-        expect(secondRequest.status).toBe(409);
-    });
 });
 
 describe("POST /my-pokemons/:pokemonId/remove", () => {
@@ -75,16 +65,5 @@ describe("POST /my-pokemons/:pokemonId/remove", () => {
         expect(missingHeaderAuthorization.status).toBe(401);
         expect(missingBearerToken.status).toBe(401);
         expect(invalidToken.status).toBe(401);
-    });
-    it("should answer with status 200 and after 404", async () => {
-        const newUser = await userFactory.createUser("123456");
-        const newSession = await userFactory.createSession(newUser.id);
-        const newPokemon = await pokemonFactory.createPokemon();
-        await test.post(`/my-pokemons/${newPokemon.id}/add`).set("Authorization", `Bearer ${newSession.token}`);
-        const firstRequest = await test.post(`/my-pokemons/${newPokemon.id}/remove`).set("Authorization", `Bearer ${newSession.token}`);
-        const secondRequest = await test.post(`/my-pokemons/${newPokemon.id}/remove`).set("Authorization", `Bearer ${newSession.token}`);
-
-        expect(firstRequest.status).toBe(200);
-        expect(secondRequest.status).toBe(404);
     });
 });
