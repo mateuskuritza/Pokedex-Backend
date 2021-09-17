@@ -20,4 +20,6 @@ export async function init() {
     await connectDatabase();
 }
 
-export default app;
+const httpServer = require("http").Server(app);
+
+export default httpServer;

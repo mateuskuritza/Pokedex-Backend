@@ -5,7 +5,11 @@ export async function getMessages(): Promise<Message[]> {
     var date = new Date();
     date.setDate(date.getDate() - 1);
     // last 24 hours ( 1 day )
-    const messages = await getRepository(Message).find({ select: ["id", "userId", "text", "date"], where: { date: MoreThan(date) } });
+    const messages = await getRepository(Message).find({
+        select: ["id", "userId", "text", "date"], where: { date: MoreThan(date) }, order: {
+            date: "DESC"
+        }
+    });
     return messages;
 }
 
